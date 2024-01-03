@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://lc6oil8ux2rb"]
+
+[ext_resource type="Script" path="res://Assets/Bullet/Bullet.gd" id="1_r2hj5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_5wmgf"]
+
+[node name="Bullet" type="Area3D"]
+script = ExtResource("1_r2hj5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+mesh = SubResource("BoxMesh_5wmgf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

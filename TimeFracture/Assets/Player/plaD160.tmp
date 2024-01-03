@@ -1,0 +1,290 @@
+[gd_scene load_steps=17 format=3 uid="uid://bi7bhuuchyu8a"]
+
+[ext_resource type="Script" path="res://Assets/Player/Player.gd" id="1_tatkh"]
+[ext_resource type="Script" path="res://Assets/Player/GunHolder.gd" id="2_cijsn"]
+[ext_resource type="Script" path="res://Assets/Guns/Pistol.gd" id="2_jcpf7"]
+[ext_resource type="Script" path="res://Assets/Guns/AssaultRifle.gd" id="3_rsif1"]
+[ext_resource type="PackedScene" uid="uid://lc6oil8ux2rb" path="res://Assets/Bullet/bullet.tscn" id="3_uio18"]
+[ext_resource type="Script" path="res://Assets/Player/UiManager.gd" id="6_3p518"]
+[ext_resource type="Texture2D" uid="uid://cegriwbkam37l" path="res://Assets/Textures/Cursor.png" id="6_pe7ts"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mqs4r"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6m2li"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ejd2c"]
+size = Vector3(0.139282, 0.200562, 0.632813)
+
+[sub_resource type="Animation" id="Animation_f4oon"]
+resource_name = "Shoot"
+length = 0.3025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.07, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.071466), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.07, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.15708, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_hqe8l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_knxuv"]
+_data = {
+"RESET": SubResource("Animation_hqe8l"),
+"Shoot": SubResource("Animation_f4oon")
+}
+
+[sub_resource type="Animation" id="Animation_yllnb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, -0.196618)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_trwi4"]
+resource_name = "Shoot_AssaultRifle"
+length = 0.319
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.101158), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.11, 0.319),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.0523599, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_45s3p"]
+_data = {
+"RESET": SubResource("Animation_yllnb"),
+"Shoot": SubResource("Animation_trwi4")
+}
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25156, 0)
+script = ExtResource("1_tatkh")
+Sensitivity = null
+SprintTime = null
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_mqs4r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_6m2li")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="GunHolder" type="Marker3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.507, -0.44, -0.488)
+script = ExtResource("2_cijsn")
+
+[node name="Pistol" type="RigidBody3D" parent="Camera3D/GunHolder"]
+freeze = true
+script = ExtResource("2_jcpf7")
+BulletPackedScene = ExtResource("3_uio18")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Camera3D/GunHolder/Pistol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00804067, 0.00382304, -0.31637)
+size = Vector3(0.133057, 0.187012, 0.624023)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Camera3D/GunHolder/Pistol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0339304, 0.112547, -0.0909597)
+size = Vector3(0.0264282, 0.0396423, 0.119873)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Camera3D/GunHolder/Pistol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0484012, 0.112425, -0.0909597)
+size = Vector3(0.0264282, 0.0393982, 0.119873)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Camera3D/GunHolder/Pistol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0120888, 0.10687, -0.554964)
+size = Vector3(0.0264282, 0.0282898, 0.119873)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera3D/GunHolder/Pistol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00410277, 0.00260377, -0.320313)
+shape = SubResource("BoxShape3D_ejd2c")
+
+[node name="BulletSpawner" type="Marker3D" parent="Camera3D/GunHolder/Pistol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0114741, 0.0188375, -0.646842)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D/GunHolder/Pistol"]
+libraries = {
+"": SubResource("AnimationLibrary_knxuv")
+}
+
+[node name="AssaultRifle" type="RigidBody3D" parent="Camera3D/GunHolder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.196618)
+visible = false
+freeze = true
+script = ExtResource("3_rsif1")
+BulletPackedScene = ExtResource("3_uio18")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Camera3D/GunHolder/AssaultRifle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00804067, 0.00382304, -0.331141)
+size = Vector3(0.133057, 0.187012, 0.653564)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Camera3D/GunHolder/AssaultRifle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.006881, 0.0374534, -0.916218)
+size = Vector3(0.0650635, 0.119751, 0.539886)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Camera3D/GunHolder/AssaultRifle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0139916, 0.00382304, 0.217046)
+size = Vector3(0.0753784, 0.187012, 0.0166626)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Camera3D/GunHolder/AssaultRifle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.017112, 0.0560691, 0.103773)
+size = Vector3(0.0350189, 0.0253906, 0.217789)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Camera3D/GunHolder/AssaultRifle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0339304, 0.112547, -0.385022)
+size = Vector3(0.0264282, 0.0396423, 0.119873)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Camera3D/GunHolder/AssaultRifle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0484012, 0.112425, -0.385022)
+size = Vector3(0.0264282, 0.0393982, 0.119873)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Camera3D/GunHolder/AssaultRifle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0120888, 0.10687, -1.13518)
+size = Vector3(0.0264282, 0.0282898, 0.119873)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera3D/GunHolder/AssaultRifle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00410277, 0.00260377, -0.320313)
+shape = SubResource("BoxShape3D_ejd2c")
+
+[node name="BulletSpawner" type="Marker3D" parent="Camera3D/GunHolder/AssaultRifle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0114741, 0.0427634, -1.2079)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D/GunHolder/AssaultRifle"]
+libraries = {
+"": SubResource("AnimationLibrary_45s3p")
+}
+
+[node name="GrappleRaycast" type="RayCast3D" parent="Camera3D"]
+transform = Transform3D(-1, -8.74228e-08, 0, -3.82137e-15, 4.37114e-08, -1, 8.74228e-08, -1, -4.37114e-08, 3.5157e-07, -2.38419e-07, -0.038589)
+target_position = Vector3(0, 35, 0)
+
+[node name="UiManager" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_3p518")
+
+[node name="Reticle" type="TextureRect" parent="UiManager"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_pe7ts")
+expand_mode = 1
+
+[node name="AmmoPanel" type="Panel" parent="UiManager"]
+layout_mode = 0
+offset_left = 911.0
+offset_top = 564.0
+offset_right = 1142.0
+offset_bottom = 637.0
+
+[node name="AmmoCount" type="RichTextLabel" parent="UiManager/AmmoPanel"]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 16.0
+offset_right = 186.0
+offset_bottom = 68.0
+theme_override_font_sizes/bold_font_size = 30
+bbcode_enabled = true
+text = "[center][b]10 / 10"
+
+[node name="SprintBar" type="ProgressBar" parent="UiManager"]
+layout_mode = 0
+offset_left = 912.0
+offset_top = 529.0
+offset_right = 1142.0
+offset_bottom = 556.0
